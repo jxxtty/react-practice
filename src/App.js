@@ -41,19 +41,55 @@ class App extends Component{
     }
   }
 
+  handleToggle = (id) => {
+    const { todos } = this.state;
+
+    // 파라미터로 받은 id를 가지고 몇번째 아이템인지 찾는다.
+    const index = todos.findIndex(todo => todo.id === id);
+    const selected = todos[index]; // 선택한 객체
+
+    // 아래와 같이 작성하는 방법도 있음! (nextTodos~setState 대체)
+    // this.setState({
+    //   todos: [
+    //     ...todos.slice(0, index),
+    //     {
+    //       ...selected,
+    //       checked: !selected.checked
+    //     },
+    //     ...todos.slice(index+1, todos.length)
+    //   ]
+    // });
+
+    const nextTodos = [...todos]; // 배열 복사(shallow clone)
+
+    // 기존의 값들을 복사하고, checked 값을 덮어쓴다 -> 전개해서 기존의 것들을 재사용한다.
+    nextTodos[index] = {
+      ...selected,
+      checked: !selected.checked
+    };
+
+    this.setState({
+      todos: nextTodos
+    });
+
+
+  }
+
+
   render(){
     const { input, todos } = this.state;
     const { // 비구조화할당
       handleChange,
       handleCreate,
-      handleKeyPress
+      handleKeyPress,
+      handleToggle
     } = this;
 
     return (
       <TodoListTemplate form={(
         <Form value={input} onKeyPress={handleKeyPress} onChange={handleChange} onCreate={handleCreate}/>
       )}>
-        <TodoItemList todos={todos}/>
+        <TodoItemList todos={todos} onToggle={handleToggle}/>
       </TodoListTemplate>
     );
   }

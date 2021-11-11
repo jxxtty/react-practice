@@ -2,6 +2,15 @@ import React, {Component} from "react";
 import TodoItem from './TodoItem';
 
 class TodoItemList extends Component {
+
+    // 컴포넌트 라이플 사이클 메서드 중 shouldComponentUpdate -> 컴포넌트가 리렌더링을 할지말지 결정해준다.
+    // 이걸 구현하지 않으면 언제나 true를 반환하는데, 이를 구현하려면 업데이트에 영향을 끼치는 조건을 return하면 된다.
+    shouldComponentUpdate(nextProps, nextState) {
+        // todos값이 바뀔때만 리렌더링하면 된다.
+        // 따라서 현재this.props.todos와 nextProps.todos를 비교해서 이 값이 다를때만 리렌더링한다.
+        return this.props.todos !== nextProps.todos;
+    }
+
     render() {
         // eslint-disable-next-line
         const {todos, onToggle, onRemove} = this.props;

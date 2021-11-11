@@ -42,8 +42,8 @@ class App extends Component{
   }
 
   render(){
-    const { input } = this.state;
-    const {
+    const { input, todos } = this.state;
+    const { // 비구조화할당
       handleChange,
       handleCreate,
       handleKeyPress
@@ -53,7 +53,7 @@ class App extends Component{
       <TodoListTemplate form={(
         <Form value={input} onKeyPress={handleKeyPress} onChange={handleChange} onCreate={handleCreate}/>
       )}>
-        <TodoItemList/>
+        <TodoItemList todos={todos}/>
       </TodoListTemplate>
     );
   }
